@@ -16,6 +16,15 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/routines/:routineId', async (req, res, next) => {
+  try {
+      const routine = await getRoutineById({creatorId: req.user.id, name, goal, isPublic: req.body.isPublic});
+      res.send(routine);
+  } catch (error) {
+      next(error);
+  }
+});
+
 // POST /api/routines
 router.post('/', requireUser, requiredNotSent({requiredParams: ['name', 'goal']}), async (req, res, next) => {
   try {
